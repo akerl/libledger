@@ -2,7 +2,7 @@ require 'date'
 
 module Ledger
   ENTRY_SUBJECT_LINE_REGEX = %r{^(\d+/\d+/\d+) (?:([*!]) )?(.*)$}
-  ENTRY_ACTION_LINE_REGEX = /^\s+(.*\w)(?:\s\s|\t)\s*(.*)$/
+  ENTRY_ACTION_LINE_REGEX = /^\s+(\w+[^(  )\t]*)(?:\s+(.*))?$/
 
   ##
   # Declaration for entry object
