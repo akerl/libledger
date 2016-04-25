@@ -1,7 +1,7 @@
 module Ledger
   ##
   # Declaration for list of entries
-  class Ledger
+  class Journal
     attr_reader :entries
 
     def initialize(params = {})
@@ -10,15 +10,15 @@ module Ledger
 
     class << self
       def from_files(files)
-        Ledger::Ledger.new(
+        Journal.new(
           entries: files.map { |x| from_file(x).entries }.flatten
         )
       end
 
       def from_file(file)
-        Ledger::Ledger.new(
+        Journal.new(
           entries: read_file_chunks(file).map do |x|
-            Ledger::Entry.from_lines(x)
+            Entry.from_lines(x)
           end
         )
       end

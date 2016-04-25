@@ -39,7 +39,7 @@ module Ledger
       def from_lines(lines)
         params = parse_first_line(lines.shift)
         params[:actions] = lines.map { |x| parse_action_line x }
-        Ledger::Entry.new(params)
+        Entry.new(params)
       end
 
       private
