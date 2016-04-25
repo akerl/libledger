@@ -8,6 +8,10 @@ module Ledger
       @entries = params[:entries] || []
     end
 
+    def to_s
+      @entries.map(&:to_s).join("\n")
+    end
+
     class << self
       def from_files(files)
         Journal.new(
