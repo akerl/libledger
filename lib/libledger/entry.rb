@@ -4,6 +4,11 @@ module Ledger
   ENTRY_SUBJECT_LINE_REGEX = %r{^(\d+/\d+/\d+) (?:([*!]) )?(.*)$}
   ENTRY_ACTION_LINE_REGEX = /^\s+(\w+[^(  )\t]*)(?:\s+(.*))?$/
 
+  STATE_MAPPING = {
+    cleared: '*',
+    pending: '!'
+  }.freeze
+
   ##
   # Declaration for entry object
   class Entry
@@ -19,16 +24,12 @@ module Ledger
       @state ||= @data[:state]
     end
 
-    def state_as_symbol
-      return @state_as_symbol if @state_as_symbol
-      @state = case state
-               when '*'
-                 :cleared
-               when '!'
-                 :pending
-               else
-                 raise "Unexpected state on #{name}: #{state}"
-               end
+    def state_sym
+      @state_sym ||= state.is_a?(Symbol) ? state : STATE_MAPPING.invert[state]
+    end
+
+    def state_str
+      @state_str ||= state.is_a?(Symbol) ? STATE_MAPPING[state] : state
     end
 
     def date
@@ -48,7 +49,7 @@ module Ledger
     private
 
     def subject_line
-      "#{date.strftime('%Y/%m/%d')} #{state} #{name}\n"
+      "#{date.strftime('%Y/%m/%d')} #{state_str} #{name}\n"
     end
 
     def action_lines
