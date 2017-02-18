@@ -12,6 +12,8 @@ module Ledger
   ##
   # Declaration for entry object
   class Entry
+    include Comparable
+
     def initialize(params = {})
       @data = params
     end
@@ -44,6 +46,11 @@ module Ledger
 
     def to_s
       subject_line + action_lines.join("\n") + "\n"
+    end
+
+    def <=>(other)
+      return nil unless other.is_a? Ledger::Entry
+      date <=> other.date
     end
 
     private
