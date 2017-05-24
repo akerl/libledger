@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split
   s.test_files  = `git ls-files spec/*`.split
 
-  s.add_development_dependency 'rubocop', '~> 0.48.0'
+  s.add_development_dependency 'rubocop', '~> 0.49.0'
   s.add_development_dependency 'rake', '~> 12.0.0'
   s.add_development_dependency 'codecov', '~> 0.1.1'
   s.add_development_dependency 'rspec', '~> 3.6.0'
