@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.date        = Time.now.strftime('%Y-%m-%d')
 
   s.summary     = 'Library for interacting with Ledger files'
-  s.description = "Library for interacting with Ledger files"
+  s.description = 'Library for interacting with Ledger files'
   s.authors     = ['Les Aker']
   s.email       = 'me@lesaker.org'
   s.homepage    = 'https://github.com/akerl/libledger'
