@@ -20,15 +20,17 @@ module Ledger
       end
 
       def from_file(file)
-        entries = read_file_chunks(file).map { |x| Entry.from_lines(x) }
-        Journal.new(entries: entries)
+        from_text(File.read(file))
+      end
+
+      def from_text(text)
+        Journal.new(entries: text_to_entries(text))
       end
 
       private
 
-      def read_file_chunks(file)
-        chunks = File.read(file).split("\n").chunk_while { |_, x| x =~ /^\s/ }
-        chunks.select { |x| x.size > 1 }
+      def text_to_entries(text)
+        text.split("\n\n").map { |x| Entry.from_lines(x.split("\n")) }
       end
     end
   end
