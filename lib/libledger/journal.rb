@@ -30,7 +30,11 @@ module Ledger
       private
 
       def text_to_entries(text)
-        text.split("\n\n").map { |x| Entry.from_lines(x.split("\n")) }
+        text.split("\n\n").map do |x|
+          next if x.start_with? ';'
+
+          Entry.from_lines(x.split("\n"))
+        end.compact
       end
     end
   end
