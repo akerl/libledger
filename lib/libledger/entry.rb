@@ -3,6 +3,7 @@ require 'date'
 module Ledger
   ENTRY_SUBJECT_LINE_REGEX = %r{^(\d+/\d+/\d+) (?:([*!]) )?(.*)$}.freeze
   ENTRY_ACTION_LINE_REGEX = /^\s+(\w+[^(  )\t]*)(?:\s+(.*))?$/.freeze
+  ENTRY_TAG_LINE_REGEX = /^\s+; (\w+): (.*)$/.freeze
 
   STATE_MAPPING = {
     cleared: '*',
@@ -44,8 +45,12 @@ module Ledger
       @actions ||= @data[:actions]
     end
 
+    def tags
+      @tags ||= @data[:tags] || {}
+    end
+
     def to_s
-      subject_line + action_lines.join("\n") + "\n"
+      subject_line + tag_lines + action_lines.join("\n") + "\n"
     end
 
     def <=>(other)
@@ -57,6 +62,12 @@ module Ledger
 
     def subject_line
       "#{date.strftime('%Y/%m/%d')} #{state_str} #{name}\n"
+    end
+
+    def tag_lines
+      res = tags.map { |k, v| "    ; #{k}: #{v}" }.join("\n")
+      res += "\n" unless res.empty?
+      res
     end
 
     def action_lines
@@ -75,11 +86,21 @@ module Ledger
     class << self
       def from_lines(lines)
         params = parse_first_line(lines.shift)
-        params[:actions] = lines.map { |x| parse_action_line x }
+        params[:tags] = {}
+        params[:actions] = lines.map do |x|
+          m = x.match(ENTRY_TAG_LINE_REGEX)
+          next(parse_action_line(x)) unless m
+          params[:tags][m[1]] = m[2]
+          nil
+        end.compact
         Entry.new(params)
       end
 
       private
+
+      def parse_tag_line(line)
+        line.match(ENTRY_TAG_LINE_REGEX).captures
+      end
 
       def parse_first_line(line)
         date, state, name = line.match(ENTRY_SUBJECT_LINE_REGEX).captures
