@@ -9,7 +9,7 @@ module Ledger
     end
 
     def to_s
-      @entries.map(&:to_s).join("\n")
+      @entries.sort.map(&:to_s).join("\n")
     end
 
     class << self
