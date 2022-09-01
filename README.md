@@ -2,9 +2,7 @@ libledger
 =========
 
 [![Gem Version](https://img.shields.io/gem/v/libledger.svg)](https://rubygems.org/gems/libledger)
-[![Build Status](https://img.shields.io/travis/com/akerl/libledger.svg)](https://travis-ci.com/akerl/libledger)
-[![Coverage Status](https://img.shields.io/codecov/c/github/akerl/libledger.svg)](https://codecov.io/github/akerl/libledger)
-[![Code Quality](https://img.shields.io/codacy/e5360f4242b64246b2a70022616c9bea.svg)](https://www.codacy.com/app/akerl/libledger)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/akerl/libledger/Build)](https://github.com/akerl/libledger/actions)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
 
 Library for interacting with [Ledger](http://www.ledger-cli.org/) files.
