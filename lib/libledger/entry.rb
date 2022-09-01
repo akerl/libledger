@@ -2,7 +2,7 @@ require 'date'
 
 module Ledger
   ENTRY_SUBJECT_LINE_REGEX = %r{^(\d+/\d+/\d+) (?:([*!]) )?(.*)$}.freeze
-  ENTRY_ACTION_LINE_REGEX = /^\s+(\w+[^(  )\t]*)(?:\s+(.*))?$/.freeze
+  ENTRY_ACTION_LINE_REGEX = /^\s+(\w+[^( )\t]*)(?:\s+(.*))?$/.freeze
   ENTRY_TAG_LINE_REGEX = /^\s+; (\w+): (.*)$/.freeze
 
   STATE_MAPPING = {
@@ -50,7 +50,7 @@ module Ledger
     end
 
     def to_s
-      subject_line + tag_lines + action_lines.join("\n") + "\n"
+      "#{subject_line}#{tag_lines}#{action_lines.join("\n")}\n"
     end
 
     def <=>(other)
@@ -73,7 +73,7 @@ module Ledger
     def action_lines
       actions.map do |x|
         line = "    #{x[:name]}"
-        line += ' ' * action_padding(x) + x[:amount] if x[:amount]
+        line += (' ' * action_padding(x)) + x[:amount] if x[:amount]
         line
       end
     end
